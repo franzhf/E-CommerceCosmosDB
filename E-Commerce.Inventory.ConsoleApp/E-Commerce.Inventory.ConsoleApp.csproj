@@ -138,6 +138,10 @@
       <Project>{d823f042-7fd4-43b2-960e-78f46b9c877f}</Project>
       <Name>E-Commerce.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\E-Commerce.Inventory.Manager\E-Commerce.Inventory.Manager.csproj">
+      <Project>{54fc42da-c364-47c1-8abf-c18e502c2500}</Project>
+      <Name>E-Commerce.Inventory.Manager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Azure.DocumentDB.Core.2.2.2\build\Microsoft.Azure.DocumentDB.Core.targets" Condition="Exists('..\packages\Microsoft.Azure.DocumentDB.Core.2.2.2\build\Microsoft.Azure.DocumentDB.Core.targets')" />

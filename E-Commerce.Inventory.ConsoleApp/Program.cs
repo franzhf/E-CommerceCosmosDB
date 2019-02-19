@@ -9,17 +9,13 @@ using System.Net;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
-
+using E_Commerce.Inventory.Manager;
 namespace E_Commerce.Inventory.ConsoleApp
 {
     class Program
     {
-        private const string EndpointUrl = "https://fhf-api-core-sql.documents.azure.com:443/";
-        private const string PrimaryKey = "QBHiOsvFAMJ65i7u0QAuKivVQxn0l42d6Q6c4VHMkZrqdUkKwx8qfJdHT2ZmEoGhIMkyPW2iUqNkFV7O9prAdQ==";
+        static DocumentClient client;
         
-        private const string dbName = "InventoryDB";
-        private const string CollectionName = "products";
-
 
         static void Main(string[] args)
         {
@@ -45,25 +41,44 @@ namespace E_Commerce.Inventory.ConsoleApp
             }*/
 
             //ListDBs();
-            DocumentClient client = new DocumentClient(new Uri(EndpointUrl), PrimaryKey);
+            client = DocumentDBClientConfig.GetClientInstance;
+            ProductHandle productHandle = new ProductHandle();
+            Console.WriteLine("Show list of products!!!");
+            foreach (var item in productHandle.GetProducts())
+            {
+                Console.WriteLine($"product {item.name}  price:{item.price}");
+            }
+
+
+            Console.WriteLine("[Async Fashion] Show list of products!!!");
+            var data = productHandle.GetProductsAsync();
+            foreach (var item in data.Result)
+            {
+                Console.WriteLine($"product {item.name}  price:{item.price}");
+            }
+
             // Accessing documents
+            /*var dbName = "InventoryDB";
+            var CollectionName = "products";
             ListProducts(client,dbName, CollectionName);
+
             GetProductByName(client, dbName, CollectionName, "iPad");
-            GetProductWhichLowerThan(client, dbName, CollectionName, 500);
-            
+            GetProductWhichLowerThan(client, dbName, CollectionName, 500);*/
+
             Console.ReadKey();
         }
 
 
-        private async Task AsycnGetProducts()
+        private async Task AsyncListProducts()
         {
-            //this.client = new DocumentClient(new Uri(EndpointUrl), PrimaryKey);
-            
+            client = DocumentDBClientConfig.GetClientInstance;
+
+
         }
 
         private static void ListDBs()
         {
-            using (var client = new DocumentClient(new Uri(EndpointUrl), PrimaryKey))
+            using (var client = DocumentDBClientConfig.GetClientInstance)
             {
                 var dbs = client.CreateDatabaseQuery();
                 foreach(var db in dbs)

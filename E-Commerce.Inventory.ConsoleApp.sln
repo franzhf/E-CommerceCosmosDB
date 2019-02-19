@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce.Inventory.ConsoleApp", "E-Commerce.Inventory.ConsoleApp\E-Commerce.Inventory.ConsoleApp.csproj", "{858D8225-ECCD-49FC-B0E1-7D9CFD29E839}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce.Entities", "E-Commerce.Entities\E-Commerce.Entities.csproj", "{D823F042-7FD4-43B2-960E-78F46B9C877F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Commerce.Entities", "E-Commerce.Entities\E-Commerce.Entities.csproj", "{D823F042-7FD4-43B2-960E-78F46B9C877F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce.Inventory.Manager", "E-Commerce.Inventory.Manager\E-Commerce.Inventory.Manager.csproj", "{54FC42DA-C364-47C1-8ABF-C18E502C2500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce.Inventory.Manager.IntegrationTest", "E-Commerce.Inventory.Manager.IntegrationTest\E-Commerce.Inventory.Manager.IntegrationTest.csproj", "{CF38851F-19A7-4DA9-852F-8B033B6AAB5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D823F042-7FD4-43B2-960E-78F46B9C877F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D823F042-7FD4-43B2-960E-78F46B9C877F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D823F042-7FD4-43B2-960E-78F46B9C877F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54FC42DA-C364-47C1-8ABF-C18E502C2500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54FC42DA-C364-47C1-8ABF-C18E502C2500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54FC42DA-C364-47C1-8ABF-C18E502C2500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54FC42DA-C364-47C1-8ABF-C18E502C2500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF38851F-19A7-4DA9-852F-8B033B6AAB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF38851F-19A7-4DA9-852F-8B033B6AAB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF38851F-19A7-4DA9-852F-8B033B6AAB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF38851F-19A7-4DA9-852F-8B033B6AAB5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
