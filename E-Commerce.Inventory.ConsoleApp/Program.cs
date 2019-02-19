@@ -10,6 +10,8 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
 using E_Commerce.Inventory.Manager;
+using System.Threading.Tasks;
+
 namespace E_Commerce.Inventory.ConsoleApp
 {
     class Program
@@ -43,7 +45,8 @@ namespace E_Commerce.Inventory.ConsoleApp
             //ListDBs();
             client = DocumentDBClientConfig.GetClientInstance;
             ProductHandle productHandle = new ProductHandle();
-            Console.WriteLine("Show list of products!!!");
+            /*Console.WriteLine("Show list of products!!!");
+            Console.WriteLine("==============================================================\n\n");
             foreach (var item in productHandle.GetProducts())
             {
                 Console.WriteLine($"product {item.name}  price:{item.price}");
@@ -51,11 +54,46 @@ namespace E_Commerce.Inventory.ConsoleApp
 
 
             Console.WriteLine("[Async Fashion] Show list of products!!!");
+            Console.WriteLine("==============================================================\n\n");
             var data = productHandle.GetProductsAsync();
             foreach (var item in data.Result)
             {
                 Console.WriteLine($"product {item.name}  price:{item.price}");
             }
+            */
+           /* var productName = "iPad";
+            Console.WriteLine($"[Async Fashion] Get products that match with {productName}!!!");
+            Console.WriteLine("==============================================================\n\n");
+            var data = productHandle.GetProductsByNameAsync(productName);
+            foreach (var item in data.Result)
+            {
+                Console.WriteLine($"product {item.name}  price:{item.price}");
+            }
+            Console.WriteLine("List products is done!!!!");*/
+
+            Console.WriteLine($"[Async Fashion] Add Product !!!");
+            Console.WriteLine("==============================================================\n\n");
+            Product p = new Product
+            {
+                id = "1010",
+                name = "Play Station 4",
+                price = 500
+            };
+
+            productHandle.AddProduct(p);
+
+            /*
+            Task t = Task.Run(() => 
+            {
+                var data = productHandle.GetProductsByNameAsync(productName);
+                foreach (var item in data.Result)
+                {
+                    Console.WriteLine($"product {item.name}  price:{item.price}");
+                }
+            });
+
+            t.Wait();*/
+
 
             // Accessing documents
             /*var dbName = "InventoryDB";

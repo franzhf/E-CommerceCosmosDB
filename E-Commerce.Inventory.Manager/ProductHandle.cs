@@ -22,7 +22,14 @@ namespace E_Commerce.Inventory.Manager
 
         public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
         {
-            return await DataBaseFacade.GetDocumentsAsync<Product>(_productCollection);
+            string sqlQuery = $"SELECT * FROM products p WHERE contains(p.name, '{name}')";
+            return await DataBaseFacade.GetDocumentsQueryAsync<Product>(_productCollection, sqlQuery);
+        }
+
+        public async void AddProduct(Product product)
+        {
+            
+            DataBaseFacade.CreateDocument<Product>(_productCollection, product);
         }
     }
 }
