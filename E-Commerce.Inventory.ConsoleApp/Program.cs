@@ -75,12 +75,12 @@ namespace E_Commerce.Inventory.ConsoleApp
             Console.WriteLine("==============================================================\n\n");
             Product p = new Product
             {
-                id = "1010",
-                name = "Play Station 4",
-                price = 500
+                id = "1013",
+                name = "iPhone x",
+                price = 300
             };
 
-            productHandle.AddProduct(p);
+            productHandle.AddProductAsync(p);
 
             /*
             Task t = Task.Run(() => 
@@ -97,11 +97,11 @@ namespace E_Commerce.Inventory.ConsoleApp
 
             // Accessing documents
             /*var dbName = "InventoryDB";
-            var CollectionName = "products";
-            ListProducts(client,dbName, CollectionName);
+            var collectionId = "products";
+            ListProducts(client,dbName, collectionId);
 
-            GetProductByName(client, dbName, CollectionName, "iPad");
-            GetProductWhichLowerThan(client, dbName, CollectionName, 500);*/
+            GetProductByName(client, dbName, collectionId, "iPad");
+            GetProductWhichLowerThan(client, dbName, collectionId, 500);*/
 
             Console.ReadKey();
         }

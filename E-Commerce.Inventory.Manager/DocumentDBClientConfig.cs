@@ -8,8 +8,11 @@ namespace E_Commerce.Inventory.Manager
 {
     public class DocumentDBClientConfig
     {
-        private const string EndpointUrl = "https://fhf-api-core-sql.documents.azure.com:443/";
-        private const string PrimaryKey = "QBHiOsvFAMJ65i7u0QAuKivVQxn0l42d6Q6c4VHMkZrqdUkKwx8qfJdHT2ZmEoGhIMkyPW2iUqNkFV7O9prAdQ==";
+        //private const string EndpointUrl = "https://fhf-api-core-sql.documents.azure.com:443/";
+        //private const string PrimaryKey = "QBHiOsvFAMJ65i7u0QAuKivVQxn0l42d6Q6c4VHMkZrqdUkKwx8qfJdHT2ZmEoGhIMkyPW2iUqNkFV7O9prAdQ==";
+        private const string EndpointUrl = "https://localhost:8081";
+        private const string PrimaryKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+
         private static DocumentClient _client;
         private DocumentDBClientConfig()
         {
