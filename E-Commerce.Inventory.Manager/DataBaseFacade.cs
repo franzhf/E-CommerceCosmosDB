@@ -14,16 +14,16 @@ namespace E_Commerce.Inventory.Manager
     //[Obsolete("TODO: Refactoring from static method to instance class")]
     public class DataBaseFacade<T> where T : IEntity
     {
-        private const string databaseId = "InventoryDB";
+        private const string _databaseId = "InventoryDB";
         private FeedOptions _feedOption = new FeedOptions { EnableCrossPartitionQuery = true };
-        private TypeOfOperation typeOfOperation = TypeOfOperation.by_net_sdk;
+        private TypeOfOperation _typeOfOperation = TypeOfOperation.by_net_sdk;
         private string _collectionId;
-        private Uri documentCollectionUri;
+        private Uri _documentCollectionUri;
 
         public DataBaseFacade(string collectionId)
         {
             _collectionId = collectionId;
-            documentCollectionUri = UriFactory.CreateDocumentCollectionUri(databaseId, _collectionId);
+            _documentCollectionUri = UriFactory.CreateDocumentCollectionUri(_databaseId, _collectionId);
             // contract
             ExistsCollection();
         }
@@ -32,7 +32,7 @@ namespace E_Commerce.Inventory.Manager
         {
             DocumentClient client = DocumentDBClientConfig.GetClientInstance;
             Database database = client.CreateDatabaseQuery()
-                .Where(db => db.Id == databaseId).AsEnumerable()
+                .Where(db => db.Id == _databaseId).AsEnumerable()
                 .FirstOrDefault();
             var documentCollection = from c in client.CreateDocumentCollectionQuery(database.SelfLink)
                                      where c.Id == _collectionId
@@ -42,7 +42,7 @@ namespace E_Commerce.Inventory.Manager
                     .Where(coll => coll.Id == collectionId)
                    .FirstOrDefault();*/                        
             if (documentCollection == null)
-                throw new Exception($"{_collectionId} doesnt exists in the database {databaseId}");
+                throw new Exception($"{_collectionId} doesnt exists in the database {_databaseId}");
             return documentCollection.AsEnumerable().FirstOrDefault();
         }
 
@@ -57,9 +57,9 @@ namespace E_Commerce.Inventory.Manager
         public List<T> GetDocuments()
         {
             if (!ExistsCollection())
-                throw new Exception($" {_collectionId}  does not exists in the database {databaseId} !!!");
+                throw new Exception($" {_collectionId}  does not exists in the database {_databaseId} !!!");
             DocumentClient client = DocumentDBClientConfig.GetClientInstance;
-            IEnumerable<T> docs = from c in client.CreateDocumentQuery<T>(documentCollectionUri, _feedOption)
+            IEnumerable<T> docs = from c in client.CreateDocumentQuery<T>(_documentCollectionUri, _feedOption)
                                             select c;
             List<T> resultSet = new List<T>();
             if (docs != null)
@@ -75,11 +75,11 @@ namespace E_Commerce.Inventory.Manager
         public async Task<List<T>> GetDocumentsAsync()
         {
             if (!ExistsCollection())
-                throw new Exception($" {_collectionId}  does not exists in the database {databaseId} !!!");
+                throw new Exception($" {_collectionId}  does not exists in the database {_databaseId} !!!");
             DocumentClient client = DocumentDBClientConfig.GetClientInstance;
             List<T> resultSet = new List<T>();
             //  run a query asynchronously using the AsDocumentQuery() interface
-            var queryble = client.CreateDocumentQuery<T>(documentCollectionUri, _feedOption).AsDocumentQuery();
+            var queryble = client.CreateDocumentQuery<T>(_documentCollectionUri, _feedOption).AsDocumentQuery();
             while (queryble.HasMoreResults)
             {
                 foreach (T doc in await queryble.ExecuteNextAsync())
@@ -89,8 +89,8 @@ namespace E_Commerce.Inventory.Manager
             }
 
             /*
-            var documentCollectionUri = $"/dbs/{databaseId}/colls/{collectionId}";
-            IEnumerable<T> docs = from c in client.CreateDocumentQuery<T>(documentCollectionUri, feedOption)
+            var _documentCollectionUri = $"/dbs/{_databaseId}/colls/{collectionId}";
+            IEnumerable<T> docs = from c in client.CreateDocumentQuery<T>(_documentCollectionUri, feedOption)
                                   select c;
             
             List<T> resultSet = new List<T>();
@@ -107,7 +107,7 @@ namespace E_Commerce.Inventory.Manager
         public async Task<List<T>> GetDocumentsQueryAsync(string documentName)
         {            
             if (!ExistsCollection())
-                throw new Exception($" {_collectionId}  does not exists in the database {databaseId} !!!");
+                throw new Exception($" {_collectionId}  does not exists in the database {_databaseId} !!!");
             var query = $"SELECT * FROM {_collectionId} c WHERE contains(c.name, '{documentName}')";
             var resultSet = await RunQueryAsync(query);
             return resultSet;
@@ -118,7 +118,7 @@ namespace E_Commerce.Inventory.Manager
             DocumentClient client = DocumentDBClientConfig.GetClientInstance;
             List<T> resultSet = new List<T>();
             //  run a query asynchronously using the AsDocumentQuery() interface
-            var queryble = client.CreateDocumentQuery<T>(documentCollectionUri, query, _feedOption).AsDocumentQuery();
+            var queryble = client.CreateDocumentQuery<T>(_documentCollectionUri, query, _feedOption).AsDocumentQuery();
             while (queryble.HasMoreResults)
             {
                 foreach (T doc in await queryble.ExecuteNextAsync())
@@ -137,10 +137,10 @@ namespace E_Commerce.Inventory.Manager
             // var documentCollection = GetDocumentCollection(collectionId);
             // documentCollection.PartitionKey.Paths.Add("/productsid");
             ResourceResponse<Document> resourceResponse = null;
-            if (typeOfOperation == TypeOfOperation.by_net_sdk)
-                resourceResponse = await client.CreateDocumentAsync(documentCollectionUri, newDocument);
+            if (_typeOfOperation == TypeOfOperation.by_net_sdk)
+                resourceResponse = await client.CreateDocumentAsync(_documentCollectionUri, newDocument);
             /*else
-            await client.ExecuteStoredProcedureAsync<string>(UriFactory.CreateStoredProcedureUri(databaseId, _collectionId, storedProcedureId)
+            await client.ExecuteStoredProcedureAsync<string>(UriFactory.CreateStoredProcedureUri(_databaseId, _collectionId, storedProcedureId)
                                                     , requestOptions
                                                     , newDocument);*/
             if (resourceResponse != null && resourceResponse.StatusCode == System.Net.HttpStatusCode.Created)
@@ -160,10 +160,13 @@ namespace E_Commerce.Inventory.Manager
         public async Task<bool> UpdateDocumentAsync(T document)
         {
             var client = DocumentDBClientConfig.GetClientInstance;
-            var response = await client.ReplaceDocumentAsync(this.documentCollectionUri, document);
+            Uri documentUri = UriFactory.CreateDocumentUri(_databaseId, _collectionId, document.id);
+
+            var response = await client.ReplaceDocumentAsync(documentUri, document);            
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 return true;
             return false;
         }
+
     }
 }

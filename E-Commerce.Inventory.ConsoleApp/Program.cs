@@ -145,10 +145,10 @@ namespace E_Commerce.Inventory.ConsoleApp
         {
             // indicating whether users are enabled to send more than one request to execute the query in the Azure Cosmos DB service.
             var feedOption = new FeedOptions { EnableCrossPartitionQuery = true };
-            var documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
+            var _documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
             if (client != null)
             {
-                IEnumerable<Document> docs = from c in client.CreateDocumentQuery(documentCollectionUri, feedOption)
+                IEnumerable<Document> docs = from c in client.CreateDocumentQuery(_documentCollectionUri, feedOption)
                                              select c;
                 if (docs != null)
                 {
@@ -165,10 +165,10 @@ namespace E_Commerce.Inventory.ConsoleApp
             Console.WriteLine("List all products");
             // indicating whether users are enabled to send more than one request to execute the query in the Azure Cosmos DB service.
             var feedOption = new FeedOptions { EnableCrossPartitionQuery = true };
-            var documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
+            var _documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
             if (client != null)
             {
-                IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(documentCollectionUri, feedOption)
+                IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(_documentCollectionUri, feedOption)
                                              select c; if (docs != null)
                 {
                     //Console.WriteLine("Documents for collection {0}", collName);
@@ -185,10 +185,10 @@ namespace E_Commerce.Inventory.ConsoleApp
             Console.WriteLine($"List {productName} products");
             // indicating whether users are enabled to send more than one request to execute the query in the Azure Cosmos DB service.
             var feedOption = new FeedOptions { EnableCrossPartitionQuery = true };
-            var documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
+            var _documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
             if (client != null)
             {
-                IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(documentCollectionUri, feedOption)
+                IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(_documentCollectionUri, feedOption)
                                             where c.name.Contains(productName)// name should be mapping product document
                                             select c;
                 if (docs != null)
@@ -206,10 +206,10 @@ namespace E_Commerce.Inventory.ConsoleApp
             Console.WriteLine($"\n List products which the price lower than {limitPrice} ");
             // indicating whether users are enabled to send more than one request to execute the query in the Azure Cosmos DB service.
             var feedOption = new FeedOptions { EnableCrossPartitionQuery = true };
-            var documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
+            var _documentCollectionUri = "/dbs/" + dbName + "/colls/" + collName;
             if (client != null)
             {
-                IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(documentCollectionUri, feedOption)
+                IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(_documentCollectionUri, feedOption)
                                             where c.price <= limitPrice// name should be mapping product document
                                             select c;
                 if (docs != null)

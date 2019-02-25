@@ -65,21 +65,41 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             Assert.IsTrue(result.price == expectedResult);
         }
         [Test]
-        public void Should_update_product_name()
+        public void Should_update_product_name_no_partition_key_value()
         {
             // Arrange
             Product inputProduct = new Product
             {
-                id = "1010",
-                name = "new iPad Pro",
-                price = 500
+                id = "2004",
+                name = "Monitor Samsung 3",
+                price = 200,
+
             };
             // Act 
-            var result = productHandle.UpdateProductAsync(inputProduct);
+            var result = productHandle.UpdateProductAsync(inputProduct).Result;
 
             // Assert
             Assert.IsTrue(result);
         }
+
+        [Test]
+        public void Should_update_product_name_partition_key_value()
+        {
+            // Arrange
+            Product inputProduct = new Product
+            {
+                id = "100",
+                name = "TV",
+                price = 200,
+                type = "electronic"
+            };
+            // Act 
+            var result = productHandle.UpdateProductAsync(inputProduct).Result;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
 
         [Test]
         public void Should_add_new_product()

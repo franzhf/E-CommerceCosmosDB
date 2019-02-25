@@ -63,9 +63,9 @@ namespace E_Commerce.Inventory.Manager
             return response;
         }
 
-        public bool UpdateProductAsync(Product product)
+        public  async Task<bool> UpdateProductAsync(Product product)
         {
-            bool response = dataBaseFacade.UpdateDocumentAsync(product).Result;
+            bool response = await dataBaseFacade.UpdateDocumentAsync(product);
             return response;
         }
 
