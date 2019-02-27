@@ -1,0 +1,5 @@
+function IsValidPrice(amount){
+    if(amount > 0)
+      return true;
+    return false;
+}

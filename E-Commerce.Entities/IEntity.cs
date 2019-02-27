@@ -6,6 +6,6 @@ namespace E_Commerce.Entities
 {
     public interface IEntity
     {
-        string id { get; set; }
+        string Id { get; set; }
     }
 }

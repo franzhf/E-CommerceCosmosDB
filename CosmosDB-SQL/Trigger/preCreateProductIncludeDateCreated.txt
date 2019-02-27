@@ -1,0 +1,13 @@
+function preCreateProductIncludeDateCreated(){
+    console.log("trigger");
+
+ 
+    var context = getContext();
+    var request = context.getRequest();    
+    var newlyProduct = request.getBody();
+     request.setBody("trigger");
+   throw "trigger";
+
+    newlyProduct.dateCreated = Date.now();
+    request.setBody(doc);
+}

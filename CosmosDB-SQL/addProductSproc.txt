@@ -1,0 +1,13 @@
+function addProductSproc(newProduct) {
+    var context = getContext();
+    var collection = context.getCollection();
+    var response = context.getResponse();    
+    var requestOptions = { partitionKey = newDocument.id };
+
+    var accepted = collection.createDocument(collection.getSelfLink(), newProduct, requestOptions,function (err, product) {
+        if (err) throw new Error('Error' + err.message);
+            context.getResponse().setBody(product.id)
+        });
+    if (!accepted) return;
+    response.setBody(inputProduct.id);
+}

@@ -75,9 +75,9 @@ namespace E_Commerce.Inventory.ConsoleApp
             Console.WriteLine("==============================================================\n\n");
             Product p = new Product
             {
-                id = "1013",
-                name = "iPhone x",
-                price = 300
+                Id = "1013",
+                Name = "iPhone x",
+                Price = 300
             };
 
             productHandle.AddProductAsync(p);
@@ -174,7 +174,7 @@ namespace E_Commerce.Inventory.ConsoleApp
                     //Console.WriteLine("Documents for collection {0}", collName);
                     foreach (var doc in docs)
                     {
-                        Console.WriteLine($"Name: {doc.name} Price: {doc.price}" );
+                        Console.WriteLine($"Name: {doc.Name} Price: {doc.Price}" );
                     }
                 }
             }
@@ -189,13 +189,13 @@ namespace E_Commerce.Inventory.ConsoleApp
             if (client != null)
             {
                 IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(_documentCollectionUri, feedOption)
-                                            where c.name.Contains(productName)// name should be mapping product document
+                                            where c.Name.Contains(productName)// name should be mapping product document
                                             select c;
                 if (docs != null)
                 {
                     foreach (var doc in docs)
                     {
-                        Console.WriteLine($"Name: {doc.name} Price: {doc.price}");
+                        Console.WriteLine($"Name: {doc.Name} Price: {doc.Price}");
                     }
                 }
             }
@@ -210,13 +210,13 @@ namespace E_Commerce.Inventory.ConsoleApp
             if (client != null)
             {
                 IEnumerable<Product> docs = from c in client.CreateDocumentQuery<Product>(_documentCollectionUri, feedOption)
-                                            where c.price <= limitPrice// name should be mapping product document
+                                            where c.Price <= limitPrice// name should be mapping product document
                                             select c;
                 if (docs != null)
                 {
                     foreach (var doc in docs)
                     {
-                        Console.WriteLine($"Name: {doc.name} Price: {doc.price}");
+                        Console.WriteLine($"Name: {doc.Name} Price: {doc.Price}");
                     }
                 }
             }

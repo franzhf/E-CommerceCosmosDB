@@ -132,21 +132,30 @@ namespace E_Commerce.Inventory.Manager
         public async Task<bool> CreateDocument(T newDocument) 
         {
             var client = DocumentDBClientConfig.GetClientInstance;
-            var storedProcedureId = "addProductSproc";
-            var requestOptions = new RequestOptions { PartitionKey = new PartitionKey($"/products/{newDocument.id}") };
-            // var documentCollection = GetDocumentCollection(collectionId);
             // documentCollection.PartitionKey.Paths.Add("/productsid");
             ResourceResponse<Document> resourceResponse = null;
-            if (_typeOfOperation == TypeOfOperation.by_net_sdk)
-                resourceResponse = await client.CreateDocumentAsync(_documentCollectionUri, newDocument);
-            /*else
-            await client.ExecuteStoredProcedureAsync<string>(UriFactory.CreateStoredProcedureUri(_databaseId, _collectionId, storedProcedureId)
-                                                    , requestOptions
-                                                    , newDocument);*/
+            resourceResponse = await client.CreateDocumentAsync(_documentCollectionUri, newDocument);
             if (resourceResponse != null && resourceResponse.StatusCode == System.Net.HttpStatusCode.Created)
                 return true;
              return false;
             
+        }
+
+        public async Task<bool> CreateDocumentSprocAsync(T newDocument, string partitionKeyValue)
+        {
+            var client = DocumentDBClientConfig.GetClientInstance;
+            var storedProcedureId = "addProductSproc";
+            var requestOptions = new RequestOptions
+            {
+                PartitionKey = new PartitionKey(partitionKeyValue),
+                PreTriggerInclude = new List<string> { "preCreateProductIncludeDateCreated" }
+            };
+
+            var storedProcedureUri = UriFactory.CreateStoredProcedureUri(_databaseId, _collectionId, storedProcedureId);
+            StoredProcedureResponse<string> storedProcedureResponse = await client.ExecuteStoredProcedureAsync<string>(storedProcedureUri, requestOptions, newDocument);
+            if (storedProcedureResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                return true;
+            return false;
         }
 
         public async Task<bool> ExistsDocumentAsync(T document,string query)
@@ -160,7 +169,7 @@ namespace E_Commerce.Inventory.Manager
         public async Task<bool> UpdateDocumentAsync(T document)
         {
             var client = DocumentDBClientConfig.GetClientInstance;
-            Uri documentUri = UriFactory.CreateDocumentUri(_databaseId, _collectionId, document.id);
+            Uri documentUri = UriFactory.CreateDocumentUri(_databaseId, _collectionId, document.Id);
 
             var response = await client.ReplaceDocumentAsync(documentUri, document);            
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -168,5 +177,19 @@ namespace E_Commerce.Inventory.Manager
             return false;
         }
 
+        public async Task<bool> DeleteDocumentAsync(string documentId, string postTriggerInclude, string partitionKeyValue)
+        {
+            var client = DocumentDBClientConfig.GetClientInstance;
+            var documentUri = UriFactory.CreateDocumentUri(_databaseId, _collectionId, documentId);
+            RequestOptions requestOptions = new RequestOptions
+            {
+                PartitionKey = new PartitionKey(partitionKeyValue)
+                // PostTriggerInclude = new List<string> { postTriggerInclude }
+            };
+            var resourceResponse = await client.DeleteDocumentAsync(documentUri, requestOptions);
+            if (resourceResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                return true;
+            return false;
+        }
     }
 }

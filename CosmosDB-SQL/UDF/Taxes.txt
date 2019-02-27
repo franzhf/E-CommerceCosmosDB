@@ -1,0 +1,10 @@
+function applyTaxes(amount){
+    if(amount == undefined)
+        throw 'no input';
+    if (amount < 500)
+        return amount * 0.1;
+    else if (amount < 1000)
+        return amount * 0.2;
+    else
+        return amount * 0.3;
+}

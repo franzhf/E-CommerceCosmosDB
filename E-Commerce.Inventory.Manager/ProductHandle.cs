@@ -25,8 +25,8 @@ namespace E_Commerce.Inventory.Manager
 
         public Product GetProductsIncludeTax(Product product)
         {
-            var query = $"SELECT p.id, p.name, udf.udfTax(p.price) + p.price as price FROM products p" +
-                $" WHERE p.id = '{product.id}'";
+            var query = $"SELECT p.id, p.name, p.price, udf.applyTaxes(p.price) + p.price as priceWithTaxes " +
+                $"FROM products p WHERE p.id = '{product.Id}'";
             var result = dataBaseFacade.RunQueryAsync(query).Result;
             return result[0];
         }
@@ -55,10 +55,12 @@ namespace E_Commerce.Inventory.Manager
             }
         }
 
+
+
         public async Task<bool> ExistsProductAsync(Product product)
         {
-            var query = $"SELECT * FROM {_productCollection} c WHERE c.id = '{product.id}' AND" +
-                $" c.name = '{product.name}' AND c.price = {product.price}";
+            var query = $"SELECT * FROM {_productCollection} c WHERE c.id = '{product.Id}' AND" +
+                $" c.name = '{product.Name}' AND c.price = {product.Price}";
             bool response = await dataBaseFacade.ExistsDocumentAsync(product, query);
             return response;
         }

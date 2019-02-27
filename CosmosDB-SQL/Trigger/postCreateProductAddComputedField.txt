@@ -1,0 +1,25 @@
+function postCreateProductAddComputedField(){    
+    var context = getContext();
+    var container = context.getCollection();
+    var response = context.getResponse();
+    var createdProduct = response.getBody();
+    var requestOptions = { partitionKey : product.category };
+
+    createdProduct.fullDescription = createdProduct.name + ' '+ createdProduct.price;
+  
+  
+
+    function updateMetadataCallback(err, items, responseOptions) {
+            if(err) 
+                throw new Error("Error" + err.message);
+            var metadataProduct = items[0];
+            var accept = container.replaceDocument(metadataProduct._self, createdProduct, function(err, productReplaced) {
+            if(err) 
+                throw "Unable to update created product, abort";
+        });
+    }
+    
+    if(!accept) 
+        throw "Unable to update created product, abort";
+    return;    
+}

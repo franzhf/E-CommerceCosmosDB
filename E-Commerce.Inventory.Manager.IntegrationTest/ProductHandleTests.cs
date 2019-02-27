@@ -22,9 +22,9 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             // Arrange
             Product inputProduct = new Product
             {
-                id = "1010",
-                name = "iPad",
-                price = 500
+                Id = "1010",
+                Name = "iPad",
+                Price = 500
             };
             // Act 
             bool result = productHandle.ExistsProductAsync(inputProduct).Result;
@@ -38,9 +38,9 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             // Arrange
             Product inputProduct = new Product
             {
-                id = "10",
-                name = "iPad",
-                price = 500
+                Id = "10",
+                Name = "iPad",
+                Price = 500
             };
             // Act 
             var result = productHandle.ExistsProductAsync(inputProduct).Result;
@@ -52,17 +52,17 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
         public void Should_price_include_the_tax_to_amount()
         {
             // Arrange
-            var expectedResult = 600;
+            var expectedResult = 2600;
             Product inputProduct = new Product
             {
-                id = "1010"
+                Id = "2000"
                 //price = 500
             };
             // Act 
             var result = productHandle.GetProductsIncludeTax(inputProduct);
 
             // Assert
-            Assert.IsTrue(result.price == expectedResult);
+            Assert.IsTrue(result.PriceWithTaxes == expectedResult);
         }
         [Test]
         public void Should_update_product_name_no_partition_key_value()
@@ -70,9 +70,9 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             // Arrange
             Product inputProduct = new Product
             {
-                id = "2004",
-                name = "Monitor Samsung 3",
-                price = 200,
+                Id = "2004",
+                Name = "Monitor Samsung 3",
+                Price = 200,
 
             };
             // Act 
@@ -88,10 +88,10 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             // Arrange
             Product inputProduct = new Product
             {
-                id = "100",
-                name = "TV",
-                price = 200,
-                type = "electronic"
+                Id = "2000",
+                Name = "TV 4K",
+                Price = 2000,
+                Category = "Electronic" // Partition key
             };
             // Act 
             var result = productHandle.UpdateProductAsync(inputProduct).Result;
@@ -107,9 +107,10 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             // Arrange
             Product inputProduct = new Product
             {
-                id = "2004",
-                name = "Monitor Samsung 2",
-                price = 200
+                Id = "6004",
+                Name = "Monitor Samsung 2",
+                Price = 200
+
             };
             // Act 
             var result = productHandle.AddProductAsync(inputProduct).Result;
@@ -124,17 +125,14 @@ namespace E_Commerce.Inventory.Manager.IntegrationTest
             // Arrange
             Product inputProduct = new Product
             {
-                id = "1010",
-                name = "iPad",
-                price = 500
+                Id = "1010",
+                Name = "iPad",
+                Price = 500
             };
             // Act 
             // Assert
             var ex = Assert.ThrowsAsync<ProductException>(async () => await productHandle.AddProductAsync(inputProduct));
             Assert.That(ex.Message, Is.EqualTo("Cannot add duplicate products"));
-
-            
-
         }
     }
 }
