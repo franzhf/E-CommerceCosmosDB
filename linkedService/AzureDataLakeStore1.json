@@ -1,0 +1,13 @@
+{
+	"name": "AzureDataLakeStore1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureDataLakeStore",
+		"typeProperties": {
+			"dataLakeStoreUri": "https://fhfdatalake.azuredatalakestore.net/webhdfs/v1",
+			"tenant": "a8600d6d-c68e-4227-85f0-dab4f1e06ead",
+			"subscriptionId": "b1c355ee-843e-4218-820b-8d98a9de73be",
+			"resourceGroupName": "fhf-northcentral(US)-storage"
+		}
+	}
+}
