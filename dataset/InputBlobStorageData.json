@@ -1,0 +1,47 @@
+{
+	"name": "InputBlobStorageData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "identifiers",
+				"type": "String"
+			},
+			{
+				"name": "other_names",
+				"type": "String"
+			},
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "classification",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects",
+				"jsonPathDefinition": {
+					"identifiers": "$.['identifiers']",
+					"other_names": "$.['other_names']",
+					"id": "$.['id']",
+					"classification": "$.['classification']",
+					"name": "$.['name']"
+				}
+			},
+			"fileName": "",
+			"folderPath": "rawdata"
+		}
+	}
+}
